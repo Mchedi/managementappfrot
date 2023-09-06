@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Footer, Navbar } from "../components";
 import jwt_decode from "jwt-decode";
-import { computeHeadingLevel } from "@testing-library/react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userRole, setUserRole] = useState(null); // State to store the user's role
+  const navigate = useNavigate(); // Use navigate for programmatic navigation
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -32,13 +32,8 @@ const Login = () => {
 
         // Fetch user role after successful login
         fetchUserRole(accessToken);
-          console.log(accessToken)
-          console.log(userEmail)
 
-
-          localStorage.setItem('userRole', userRole);
-          localStorage.setItem('userEmail', userEmail);
-
+        localStorage.setItem('userEmail', userEmail);
       } else {
         console.error('Login failed');
       }
@@ -61,8 +56,17 @@ const Login = () => {
         const data = await response.json();
         const role = data.role;
         setUserRole(role);
-    
 
+        // Store user role in local storage
+        localStorage.setItem('userRole', role);
+        localStorage.setItem('authToken', accessToken); // Store the auth token in local storage
+        //setAuthToken(accessToken);
+        // Redirect based on user role
+        if (role === 'directure') {
+          navigate("/createsociete");
+        } else {
+          navigate("/");
+        }
       } else {
         console.error('Failed to fetch user role');
       }
@@ -70,9 +74,6 @@ const Login = () => {
       console.error('An error occurred while fetching user role:', error);
     }
   };
-  localStorage.setItem('userRole', userRole);
-  console.log(userRole)
-  
   return (
     <>
       <Navbar />
@@ -82,7 +83,7 @@ const Login = () => {
         <div className="row my-4 h-100">
           <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
             <form onSubmit={handleSubmit}>
-              <div className="my-3">
+            <div className="my-3">
                 <label htmlFor="display-4">Email address</label>
                 <input
                   type="email"
@@ -107,16 +108,10 @@ const Login = () => {
               <div className="my-3">
                 <p>New Here? <Link to="/register" className="text-decoration-underline text-info">Register</Link> </p>
               </div>
-              <div className="text-center">
-                {userRole === 'director' ? (
-                  <Link to="/createsociete" className="my-2 mx-auto btn btn-dark">
-                    Login
-                  </Link>
-                ) : (
-                  <button className="my-2 mx-auto btn btn-dark" type="submit">
-                    Login
-                  </button>
-                )}
+                            <div className="text-center">
+                <button className="my-2 mx-auto btn btn-dark" type="submit">
+                  Login
+                </button>
               </div>
             </form>
           </div>

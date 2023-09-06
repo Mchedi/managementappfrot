@@ -1,49 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import { Footer, Navbar } from "../components";
-import { Link } from 'react-router-dom';
-
 
 
 const Soc = () => {
-    const [registrationStatus, setRegistrationStatus] = useState(null);
-    const authToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaGVkaW1pbGVkQGdtYWlsLmNvbSIsImlhdCI6MTY5MzQxMTE3MiwiZXhwIjoxNjkzNDEyMTcyfQ.wT41XP-1wULOppA0y6mAKshpX48kLvkShhBXgErRYIc'; // Replace this with the actual authentication token
+  const [societe, setSociete] = useState({
+    name: "",
+    chiffre_affaire: "",
+    matricule_fiscale: "",
+    address: ""
+  });
+  const [registrationStatus, setRegistrationStatus] = useState(null);
+  const [authToken, setAuthToken] = useState(null); // State to store the authentication token
+  const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  useEffect(() => {
+    // Retrieve the authentication token from local storage
+    const storedAuthToken = localStorage.getItem('accessToken');
+    setAuthToken(storedAuthToken);
+  }, []);
 
-        const formData = new FormData(event.target);
-        const jsonData = {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
+    const formData = new FormData(event.target);
+    const jsonData = {};
 
-        try {
-            const response = await fetch('http://localhost:9998/BackendCRM/Societe/addAndAssignUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}` // Include the auth token in the header
-                },
-                body: JSON.stringify(jsonData)
-            });
+    formData.forEach((value, key) => {
+      jsonData[key] = value;
+    });
 
-            if (response.ok) {
-                setRegistrationStatus('success');
-            } else {
-                setRegistrationStatus('error');
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
-            setRegistrationStatus('error');
-        }
-    };
+    try {
+      const response = await fetch('http://localhost:9998/BackendCRM/Societe/addAndAssignUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}` // Include the auth token in the header
+        },
+        body: JSON.stringify(jsonData)
+      });
+
+      if (response.ok) {
+        setRegistrationStatus('success');
+        // Redirect to the desired route, e.g., "/createsociete"
+        navigate("/createsociete");
+      } else {
+        setRegistrationStatus('error');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setRegistrationStatus('error');
+    }
+  };    
 
     return (
         <>
             <Navbar />
             <div className="container my-3 py-3">
-                <h1 className="text-center">Register</h1>
+                <h1 className="text-center">Create Societe</h1>
                 <hr />
                 <div className="row my-4 h-100">
                     <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
@@ -91,8 +106,11 @@ const Soc = () => {
                             </div>
                             <div className="text-center">
                                 <button className="my-2 mx-auto btn btn-dark" type="submit">
-                                    Register
+                                Create
                                 </button>
+                                <div className="my-3">
+                <p>already have an societe ? <Link to="/Mysoc" className="text-decoration-underline text-info">dashboard </Link> </p>
+              </div>
                             </div>
                         </form>
                     </div>

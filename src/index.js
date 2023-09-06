@@ -7,8 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 
-import { Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound,Soc } from "./pages"
-import TableWithFields from './pages/TableWithFields';
+import {Mysoc,AllSoc,Allusers, Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound,Soc } from "./pages"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -29,9 +28,14 @@ root.render(
         <Route path="*" element={<PageNotFound />} />
         <Route path="/product/*" element={<PageNotFound />} />
         <Route path="/createsociete" element={<Soc/>} />
+        <Route path="/Mysoc" element={<Mysoc />} />
 
-        <Route path="/allsoc" element={<TableWithFields/>} />
+        <Route path="/Allusers" element={<Allusers />} />
+        <Route path="/AllSoc" element={<AllSoc />} />
 
+
+        
+        
       </Routes>
     </Provider>
   </BrowserRouter>

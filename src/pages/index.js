@@ -8,7 +8,11 @@ export { default as Login } from './Login';
 export { default as Register } from './Register';
 export { default as Checkout } from './Checkout';
 export { default as Soc } from './Soc';
-export { default as TableWithFields } from './TableWithFields';
+export { default as Allusers } from './Allusers';
+export { default as AllSoc } from './AllSoc';
+export { default as Mysoc } from './Mysoc';
+
+
 
 export { default as PageNotFound } from './PageNotFound';
 
