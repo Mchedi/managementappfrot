@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 
-import {Mysoc,AllSoc,Allusers, Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound,Soc } from "./pages"
+import {  Sub ,Home2,Mysoc,AllSoc,Allusers, Home, Product, Products, AboutPage, ContactPage, Cart, Login, Register, Checkout, PageNotFound,Soc,Home3,Products3 } from "./pages"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,8 +15,13 @@ root.render(
     <Provider store={store}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home2 />} />
+
+
         <Route path="/product" element={<Products />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/product3" element={<Products3 />} />
+
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/cart" element={<Cart />} />
@@ -29,10 +34,11 @@ root.render(
         <Route path="/product/*" element={<PageNotFound />} />
         <Route path="/createsociete" element={<Soc/>} />
         <Route path="/Mysoc" element={<Mysoc />} />
+        <Route path="/Home3" element={<Home3 />} />
 
         <Route path="/Allusers" element={<Allusers />} />
         <Route path="/AllSoc" element={<AllSoc />} />
-
+        <Route path="/Sub" element={<Sub />} />
 
         
         

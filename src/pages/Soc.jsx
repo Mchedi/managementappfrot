@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar ,Navbar2} from "../components";
 
 
 const Soc = () => {
@@ -56,7 +56,7 @@ const Soc = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar2 />
             <div className="container my-3 py-3">
                 <h1 className="text-center">Create Societe</h1>
                 <hr />
@@ -75,7 +75,7 @@ const Soc = () => {
                             </div>
                             
                             <div className="form my-3">
-                                <label htmlFor="chiffre_affaire">Chiffre d'Affaires</label>
+                                <label htmlFor="chiffre_affaire">Capital propre</label>
                                 <input
                                     type="number"
                                     className="form-control"

@@ -5,7 +5,7 @@ function handleLogout() {
     // Clear local storage
     localStorage.clear();
   }
-const Navbar2 = () => {
+const Navbar3 = () => {
     const state = useSelector(state => state.handleCart)
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
@@ -18,20 +18,26 @@ const Navbar2 = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav m-auto my-2 text-center">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/">Home </NavLink>
+                            <NavLink className="nav-link" to="/home3">Home </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/product">Products</NavLink>
+                            <NavLink className="nav-link" to="/product3">Products</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/about">About</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/Mysoc">dashbord</NavLink>
+                            <NavLink className="nav-link" to="/AllSoc">AllSoc</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/contact">Contact</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/Allusers">Allusers</NavLink>
+                        </li>   
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/Allusers">Create sub</NavLink>
+                        </li> 
                     </ul>
                  
                 </div>
@@ -44,4 +50,4 @@ const Navbar2 = () => {
     )
 }
 
-export default Navbar2
+export default Navbar3

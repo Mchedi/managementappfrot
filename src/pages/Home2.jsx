@@ -1,9 +1,9 @@
 import { Navbar, Main, Product, Footer,Navbar2 } from "../components";
 
-function Home() {
+function Home2() {
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <Main />
       <Product />
       <Footer />
@@ -11,4 +11,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Home2

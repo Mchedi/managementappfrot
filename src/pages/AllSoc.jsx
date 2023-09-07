@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Footer, Navbar2 } from "../components";
-
+import { Footer, Navbar3 } from "../components";
 
 const AllSoc = () => {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
-    useEffect(() => {
-      // Make an HTTP GET request to fetch your data
-      axios.get('http://localhost:9998/BackendCRM/Societe/getall').then((response) => {
-        setData(response.data);
-      });
-    }, []);
+  useEffect(() => {
+    // Make an HTTP GET request to fetch societe details
+    fetch('http://localhost:9998/BackendCRM/Societe/getall2', {
+    method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${authToken}`
+      },
+    })
     
-    return (
-      <>  
-            <Navbar2 />
-    <div className="container mt-4">
+
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }, [authToken]); // Include authToken in the dependency array if it might change
+
+  return (
+    <>
+      <Navbar3 />
+      <div className="container mt-4">
         <h2 className="text-center">Societe Data</h2>
         <table className="table">
           <thead>
@@ -31,20 +48,19 @@ const AllSoc = () => {
           <tbody>
             {data.map((societe) => (
               <tr key={societe.id}>
-                <td>{societe.Name}</td>
+                <td>{societe.name}</td>
                 <td>{societe.chiffre_affaire}</td>
                 <td>{societe.maricule_fiscale}</td>
                 <td>{societe.adress}</td>
-                <td>{societe.creator ? societe.creator.name : "this user "}</td> {/* Assuming 'creator' contains the creator's name */} 
+                <td>{societe.creatorName || "this user "}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <Footer />
-  
-      </>
-    );
-  };
+    </>
+  );
+};
 
-export default AllSoc
+export default AllSoc;

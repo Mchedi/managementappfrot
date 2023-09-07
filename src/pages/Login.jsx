@@ -64,7 +64,12 @@ const Login = () => {
         // Redirect based on user role
         if (role === 'directure') {
           navigate("/createsociete");
-        } else {
+        }
+        else if (role === 'admin') {
+          navigate("/Home3");
+        }
+        
+        else {
           navigate("/");
         }
       } else {
