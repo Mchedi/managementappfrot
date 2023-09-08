@@ -4,8 +4,9 @@ function Home3() {
   return (
     <>
       <Navbar3 />
-      <Main />
-      <Product />
+        {/* <Product />
+        <Main /> */}
+
       <Footer />
     </>
   )

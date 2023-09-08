@@ -20,18 +20,12 @@ const Navbar3 = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/home3">Home </NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/product3">Products</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/about3">About</NavLink>
-                        </li>
+                      
+                    
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/AllSoc">AllSoc</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact3">Contact</NavLink>
-                        </li>
+                     
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/Allusers">Allusers</NavLink>
                         </li>   
@@ -41,7 +35,6 @@ const Navbar3 = () => {
                     </ul>
                  
                 </div>
-                <NavLink to="/cart" className="btn btn-outline-dark m-2"><i className="fa fa-cart-shopping mr-1"></i> Cart ({state.length}) </NavLink>
 
                 <NavLink className="nav-link" to="/"> <button className="btn btn-outline-dark m-2" onClick={handleLogout}><i class="fa fa-sign-out" aria-hidden="true"></i> Logout  </button></NavLink>
 
