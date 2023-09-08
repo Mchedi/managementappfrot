@@ -94,7 +94,26 @@ const Mysoc = () => {
         {societeDetails ? (
           <>
             <table className="table table-bordered">
-              {/* ... Table for societe details ... */}
+            <table className="table table-bordered">
+  <tbody>
+    <tr>
+      <th scope="row">Name</th>
+      <td>{societeDetails.name}</td>
+    </tr>
+    <tr>
+      <th scope="row">Chiffre d'Affaires</th>
+      <td>{societeDetails.chiffre_affaire}</td>
+    </tr>
+    <tr>
+      <th scope="row">Matricule Fiscale</th>
+      <td>{societeDetails.maricule_fiscale}</td>
+    </tr>
+    <tr>
+      <th scope="row">Address</th>
+      <td>{societeDetails.adress}</td>
+    </tr>
+  </tbody>
+</table>
             </table>
 
             <h2 className="mt-4">Worker details:</h2>

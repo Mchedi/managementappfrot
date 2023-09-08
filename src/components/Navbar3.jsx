@@ -10,7 +10,7 @@ const Navbar3 = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
             <div className="container">
-                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/">  Ecommerce Mangement</NavLink>
+                <NavLink className="navbar-brand fw-bold fs-4 px-2" to="/home3">  Ecommerce Mangement</NavLink>
                 <button className="navbar-toggler mx-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -24,13 +24,13 @@ const Navbar3 = () => {
                             <NavLink className="nav-link" to="/product3">Products</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/about">About</NavLink>
+                            <NavLink className="nav-link" to="/about3">About</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/AllSoc">AllSoc</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact">Contact</NavLink>
+                            <NavLink className="nav-link" to="/contact3">Contact</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/Allusers">Allusers</NavLink>
