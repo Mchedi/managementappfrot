@@ -21,6 +21,7 @@ export { default as Sub } from './Sub';
 export { default as Contact3 } from'./Contact3';
 export { default as About3 } from './About3';
 export { default as About2 } from './About2';
+export { default as Addproduct } from './Addproduct';
 
 export { default as Contact2 } from'./Contact2';
 
