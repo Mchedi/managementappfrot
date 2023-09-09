@@ -6,8 +6,10 @@ import jwt_decode from "jwt-decode";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userRole, setUserRole] = useState(null); // State to store the user's role
-  const navigate = useNavigate(); // Use navigate for programmatic navigation
+  const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -35,14 +37,14 @@ const Login = () => {
 
         localStorage.setItem('userEmail', userEmail);
       } else {
-        console.error('Login failed');
+        setMessage('Login failed');
       }
     } catch (error) {
       console.error('An error occurred:', error);
     }
   };
 
-  // Function to fetch the user's role
+  // Function to fetch the user's role and societe existence
   const fetchUserRole = async (accessToken) => {
     try {
       const response = await fetch('http://localhost:9998/BackendCRM/api/auth/user-role', {
@@ -55,22 +57,36 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         const role = data.role;
-        setUserRole(role);
 
-        // Store user role in local storage
-        localStorage.setItem('userRole', role);
-        localStorage.setItem('authToken', accessToken); // Store the auth token in local storage
-        //setAuthToken(accessToken);
-        // Redirect based on user role
-        if (role === 'directure') {
-          navigate("/createsociete");
-        }
-        else if (role === 'admin') {
-          navigate("/Home3");
-        }
-        
-        else {
-          navigate("/");
+        // Fetch societe existence
+        const societeResponse = await fetch('http://localhost:9998/BackendCRM/Societe/verifsoc', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (societeResponse.ok) {
+          const hasSociete = await societeResponse.json();
+
+          // Store user role and societe existence in local storage
+          localStorage.setItem('userRole', role);
+          localStorage.setItem('authToken', accessToken);
+
+          // Redirect based on user role and societe existence
+          if (role === 'directure') {
+            if(hasSociete){navigate("/Mysoc" )}
+            else(navigate("/createsociete"))
+           // navigate(hasSociete ? : );
+
+
+          } else if (role === 'admin') {
+            navigate("/Home3");
+          } else {
+            navigate("/");
+          }
+        } else {
+          console.error('Failed to fetch societe existence');
         }
       } else {
         console.error('Failed to fetch user role');
@@ -88,7 +104,7 @@ const Login = () => {
         <div className="row my-4 h-100">
           <div className="col-md-4 col-lg-4 col-sm-8 mx-auto">
             <form onSubmit={handleSubmit}>
-            <div className="my-3">
+              <div className="my-3">
                 <label htmlFor="display-4">Email address</label>
                 <input
                   type="email"
@@ -113,10 +129,11 @@ const Login = () => {
               <div className="my-3">
                 <p>New Here? <Link to="/register" className="text-decoration-underline text-info">Register</Link> </p>
               </div>
-                            <div className="text-center">
+              <div className="text-center">
                 <button className="my-2 mx-auto btn btn-dark" type="submit">
                   Login
                 </button>
+                {message}
               </div>
             </form>
           </div>

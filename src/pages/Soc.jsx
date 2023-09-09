@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
-import { Footer, Navbar ,Navbar2} from "../components";
+import { Footer ,Navbar2} from "../components";
 
 
 const Soc = () => {
@@ -44,8 +43,7 @@ const Soc = () => {
       if (response.ok) {
         setRegistrationStatus('success');
         // Redirect to the desired route, e.g., "/createsociete"
-        navigate("/createsociete");
-      } else {
+        navigate("/Mysoc");       } else {
         setRegistrationStatus('error');
       }
     } catch (error) {
@@ -108,9 +106,7 @@ const Soc = () => {
                                 <button className="my-2 mx-auto btn btn-dark" type="submit">
                                 Create
                                 </button>
-                                <div className="my-3">
-                <p>already have an societe ? <Link to="/Mysoc" className="text-decoration-underline text-info">dashboard </Link> </p>
-              </div>
+                
                             </div>
                         </form>
                     </div>

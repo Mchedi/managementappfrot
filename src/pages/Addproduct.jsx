@@ -1,7 +1,6 @@
     import React, { useState, useEffect } from "react";
-    import { Link, useNavigate } from "react-router-dom";
-    import jwt_decode from "jwt-decode";
-    import { Footer, Navbar, Navbar2 } from "../components";
+    import {  useNavigate } from "react-router-dom";
+    import { Footer, Navbar2 } from "../components";
 
     const Addproduct = () => {
       const [product, setProduct] = useState({

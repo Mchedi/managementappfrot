@@ -36,7 +36,7 @@ const Navbar3 = () => {
                  
                 </div>
 
-                <NavLink className="nav-link" to="/"> <button className="btn btn-outline-dark m-2" onClick={handleLogout}><i class="fa fa-sign-out" aria-hidden="true"></i> Logout  </button></NavLink>
+                <NavLink className="nav-link" to="/"> <button className="btn btn-outline-dark m-2" onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout  </button></NavLink>
 
             </div>
         </nav>

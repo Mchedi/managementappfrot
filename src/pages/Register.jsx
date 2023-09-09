@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Footer, Navbar } from "../components";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 
 const Role = {
     user: 'user',
@@ -12,6 +12,8 @@ const Role = {
 
 const Register = () => {
     const [registrationStatus, setRegistrationStatus] = useState(null);
+    const navigate = useNavigate(); // Use navigate for programmatic navigation
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -34,6 +36,8 @@ const Register = () => {
 
             if (response.ok) {
                 setRegistrationStatus('success');
+                navigate("/Login ");
+
             } else {
                 setRegistrationStatus('error');
             }
