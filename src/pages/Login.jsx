@@ -83,7 +83,7 @@ const Login = () => {
           } else if (role === 'admin') {
             navigate("/Home3");
           } else {
-            navigate("/");
+            navigate("/HomeLoggedUser");
           }
         } else {
           console.error('Failed to fetch societe existence');

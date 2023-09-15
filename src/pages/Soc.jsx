@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Footer ,Navbar2} from "../components";
+import { Modal } from '@mui/base/Modal';
+
+
 
 
 const Soc = () => {
@@ -43,7 +46,7 @@ const Soc = () => {
       if (response.ok) {
         setRegistrationStatus('success');
         // Redirect to the desired route, e.g., "/createsociete"
-        navigate("/Mysoc");       } else {
+        navigate("/Sub");       } else {
         setRegistrationStatus('error');
       }
     } catch (error) {
@@ -106,7 +109,6 @@ const Soc = () => {
                                 <button className="my-2 mx-auto btn btn-dark" type="submit">
                                 Create
                                 </button>
-                
                             </div>
                         </form>
                     </div>

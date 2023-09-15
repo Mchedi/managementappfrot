@@ -4,9 +4,11 @@ function Home() {
   return (
     <>
       <Navbar />
+
       <Main />
       <Product />
       <Footer />
+
     </>
   )
 }

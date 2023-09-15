@@ -32,12 +32,16 @@ const Navbar2 = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/contact2">Contact</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/Addproduct">Add product</NavLink>
+                        </li>
                     </ul>
                  
                 </div>
                 <NavLink to="/cart" className="btn btn-outline-dark m-2"><i className="fa fa-cart-shopping mr-1"></i> Cart ({state.length}) </NavLink>
 
                 <NavLink className="nav-link" to="/"> <button className="btn btn-outline-dark m-2" onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i> Logout  </button></NavLink>
+                <NavLink to="/editprofile" className="btn btn-outline-dark m-2"> <i className="fa fa-cog"aria-hidden="true"></i> edit profile </NavLink>
 
             </div>
         </nav>

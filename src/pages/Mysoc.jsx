@@ -1,13 +1,87 @@
   import React, { useEffect, useState } from "react";
   import { Footer, Navbar2 } from "../components";
+  import Box from '@mui/material/Box';
+  import Button from '@mui/material/Button';
+  import Typography from '@mui/material/Typography';
+  import Modal from '@mui/material/Modal';
+  import TextField from '@mui/material/TextField';
+  import jwt_decode from "jwt-decode";
+
+
 
   const Mysoc = () => {
     const [societeDetails, setSocieteDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
     const [inviteMail, setInviteMail] = useState(""); // New state for the invite mail input
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [formData, setFormData] = useState({
+      workerEmail: "",
+      user: "",
+      role: "",
+    });
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+    
+    const handleAddButton = () => {
+      // Construct the request data based on your form values
+      const requestData = {
+        workerEmail: formData.workerEmail,
+        name: formData.user,
+        role: formData.role,
+      };fetch("http://localhost:9998/BackendCRM/Societe/inviteComptable", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Comptable invited and associated with the director's societe");
+            setFormData({
+              workerEmail: "",
+              user: "",
+              role: "",
+            });
+            handleClose(); // Close the modal
+            window.location.reload();
+          } else {
+            throw new Error("Failed to invite comptable");
+          }
+        })
+        .catch((error) => {
+          console.error("An error occurred:", error);
+          // Handle the error (e.g., show an error message)
+        });
+    };
 
-    useEffect(() => {
+
+    
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 800,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
+    
+  
+    
+    useEffect(() => { 
       // Make an HTTP GET request to fetch societe details
       fetch("http://localhost:9998/BackendCRM/Societe/details", {
         method: "GET",
@@ -32,6 +106,7 @@
           setLoading(false);
         });
     }, [authToken]);
+    const decodedToken = jwt_decode(authToken);
 
     const handleFire = (comptableEmail) => {
       // Handle the fire action by making a POST request to the API
@@ -58,33 +133,10 @@
           // Handle the error (e.g., show an error message)
         });
     };
-
-    const handleInvite = () => {
-      // Handle the invite action by making a POST request to the API
-      fetch(`http://localhost:9998/BackendCRM/Societe/inviteComptable/${inviteMail}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${authToken}`
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
-            // Handle a successful response (e.g., show a success message)
-            console.log("Comptable invited and associated with the director's societe");
-            // Clear the inviteMail input field
-            window.location.reload();
-
-            setInviteMail("");
-          } else {
-            throw new Error("Failed to invite comptable");
-          }
-        })
-        .catch((error) => {
-          console.error("An error occurred:", error);
-          // Handle the error (e.g., show an error message)
-        });
-    };
+ 
+    
+   
+    
 
     return (
       <>
@@ -160,14 +212,52 @@
                 </tbody>
               </table>
 
-             
+        
 
             </>
           ) : (
             <p>Loading...</p>
           )}
+          
         </div>
-
+        <Button onClick={handleOpen}>Invite by mail</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Invite User
+          </Typography>
+          <TextField
+            label="Worker Email"
+            name="workerEmail"
+            value={formData.workerEmail}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Username"
+            name="user"
+            value={formData.user}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Role"
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <Button onClick={handleAddButton}>Add</Button>
+        </Box>
+      </Modal>
         <Footer />
       </>
     );
