@@ -164,6 +164,10 @@
         <th scope="row">Address</th>
         <td>{societeDetails.adress}</td>
       </tr>
+      <tr>
+        <th scope="row">expiration sub date</th>
+        <td>{societeDetails.expiration_date}</td>
+      </tr>
     </tbody>
   </table>
               </table>
