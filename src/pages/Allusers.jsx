@@ -9,7 +9,7 @@ const Allusers = () => {
 
   useEffect(() => {
     // Make an HTTP GET request to fetch societe details
-    fetch('http://localhost:9998/BackendCRM/User/getall', {
+    fetch('http://localhost:9998/BackendCRM/User/alldtos', {
     method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,6 @@ const Allusers = () => {
             <th>Name</th>
             <th>mail</th>
             <th>role</th>
-            <th>societeWork</th>
           </tr>
         </thead>
         <tbody>
@@ -52,9 +51,7 @@ const Allusers = () => {
               <td>{User.name}</td>
               <td>{User.mail}</td>
               <td>{User.role}</td>
-              <td>
-  {User.societeWork ? `This user works in ${User.societeWork.name}` : "This user does not work in any societe"}
-</td>
+  
             </tr>
           ))}
         </tbody>
