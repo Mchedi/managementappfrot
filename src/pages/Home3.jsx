@@ -12,14 +12,45 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
+import moment from 'moment'; // 
+import { CategoryScale, Chart,registerables } from "chart.js";
+
+
 
 function Home3() {
   const [dashboardData, setDashboardData] = useState({});
   const [subsData, setSubsData] = useState([]);
   const [dashboardLoading, setDashboardLoading] = useState(true);
   const [subsLoading, setSubsLoading] = useState(true);
+  Chart.register(CategoryScale);
+  Chart.register(...registerables);
+  const sortedSubsData = subsData.slice().sort((a, b) => moment(a.purchaseDate) - moment(b.purchaseDate));
+
+
  
-  
+  const calculateAccumulatedPrice = (subsData) => {
+    let accumulatedPrice = 0;
+    return subsData.map((sub) => {
+      accumulatedPrice += sub.price;
+      return accumulatedPrice;
+    });
+  };
+  const parsedDates = sortedSubsData.map((sub) => moment(sub.purchaseDate).format("YYYY-MM-DD"));
+  const accumulatedPrices = calculateAccumulatedPrice(sortedSubsData);
+    
+
+  const chartData = {
+    labels: parsedDates, // Use parsed dates as labels
+    datasets: [
+      {
+        label: "Accumulated Price",
+        data: accumulatedPrices,
+        fill: false,
+        borderColor: "rgba(75,192,192,1)",
+        tension: 0.1,
+      },
+    ],
+  };
 
   useEffect(() => {
     // Retrieve the authentication token from local storage
@@ -120,9 +151,11 @@ function Home3() {
                       <Typography variant="h5" component="div">
                         Subscriptions:
                       </Typography>
+                      <Line data={chartData} style={{ width: '25%', height: '25%' }} />
+
                       <TableContainer component={Paper}>
                         <Table>
-                          <TableHead>
+                            <TableHead>
                             <TableRow>
                               <TableCell>Purchase Date</TableCell>
                               <TableCell>Expiration Date</TableCell>
