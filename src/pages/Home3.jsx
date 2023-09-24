@@ -80,7 +80,7 @@ function Home3() {
       });
 
     // Make an authenticated API call for subscription data with the token
-    fetch("http://localhost:9998/BackendCRM/sub/alldtos", {
+    fetch("http://localhost:9998/BackendCRM/Societe/alldtos", {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -129,7 +129,7 @@ function Home3() {
                               Number of Subscribed Societies
                             </Typography>
                             <Typography variant="h4" component="div">
-                              {dashboardData.nbsc}
+                               {dashboardData.nbsc} 
                             </Typography>
                           </div>
                         </Paper>
@@ -141,7 +141,7 @@ function Home3() {
                               Our Profit
                             </Typography>
                             <Typography variant="h4" component="div">
-                              {dashboardData.ca}
+                           {dashboardData.ca} 
                             </Typography>
                           </div>
                         </Paper>

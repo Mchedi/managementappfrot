@@ -20,23 +20,20 @@ const Navbar2 = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/home">Home </NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/Products2">Products</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/about2">About</NavLink>
-                        </li>
+                     
+                    
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/Mysoc">dashbord</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact2">Contact</NavLink>
-                        </li>
+                     
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/Addproduct   ">Addproduct</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/Myproducts   "> Myproducts</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/MyWorkers   "> My workers</NavLink>
                         </li>
 
                         

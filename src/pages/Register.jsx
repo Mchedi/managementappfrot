@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { Footer, Navbar } from "../components";
-import { Link,useNavigate} from 'react-router-dom';
-
-const Role = {
-    user: 'user',
-    admin: 'admin',
-    directure: 'directure',
-    comptable: 'comptable',
-    vendeur: 'vendeur'
-};
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [registrationStatus, setRegistrationStatus] = useState(null);
     const navigate = useNavigate(); // Use navigate for programmatic navigation
-
+    const [selectedRole, setSelectedRole] = useState('user'); // Default role is 'User'
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,6 +16,9 @@ const Register = () => {
         formData.forEach((value, key) => {
             jsonData[key] = value;
         });
+
+        // Set the role based on the selected radio button
+        jsonData['role'] = selectedRole;
 
         try {
             const response = await fetch('http://localhost:9998/BackendCRM/api/auth/register', {
@@ -37,7 +32,6 @@ const Register = () => {
             if (response.ok) {
                 setRegistrationStatus('success');
                 navigate("/Login ");
-
             } else {
                 setRegistrationStatus('error');
             }
@@ -46,6 +40,11 @@ const Register = () => {
             setRegistrationStatus('error');
         }
     };
+
+    const handleRoleChange = (event) => {
+        setSelectedRole(event.target.value);
+    };
+
     return (
         <>
             <Navbar />
@@ -85,28 +84,50 @@ const Register = () => {
                                     placeholder="Password"
                                 />
                             </div>
-                            <div className="form my-3">
-                                <label htmlFor="Role">Role</label>
-                                <select className="form-control" id="Role" name="role">
-                                    <option value={Role.user}>User</option>
-                                    <option value={Role.comptable}>Comptable</option>
-                                    <option value={Role.vendeur}>Vendeur</option>
-                                    <option value={Role.directure}>Directure</option>
-                                </select>
+                            <div className="form-check my-3">
+                                <label>regsiter as:</label>
+                                <div className="form-check">
+                                    <input
+                                        type="radio"
+                                        className="form-check-input"
+                                        id="userRadio"
+                                        name="role"
+                                        value="user"
+                                        checked={selectedRole === 'user'}
+                                        onChange={handleRoleChange}
+                                    />
+                                    <label className="form-check-label" htmlFor="userRadio">
+                                        User
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input
+                                        type="radio"
+                                        className="form-check-input"
+                                        id="directureRadio"
+                                        name="role"
+                                        value="directure"
+                                        checked={selectedRole === 'directure'}
+                                        onChange={handleRoleChange}
+                                    />
+                                    <label className="form-check-label" htmlFor="directureRadio">
+                                        Directeur
+                                    </label>
+                                </div>
                             </div>
                             <div className="text-center">
                                 <button className="my-2 mx-auto btn btn-dark" type="submit">
                                     Register
                                 </button>
                                 {registrationStatus === 'success' && (
-                        <p className="text-success text-center">
-        Registration successful! Please <Link to="/login">login</Link> to continue.
-    </p>
-)}
+                                    <p className="text-success text-center">
+                                        Registration successful! Please <Link to="/login">login</Link> to continue.
+                                    </p>
+                                )}
                             </div>
                             <div className="my-3">
-                <p>already have an acount ? <Link to="/login" className="text-decoration-underline text-info">Log in </Link> </p>
-              </div>
+                                <p>Already have an account? <Link to="/login" className="text-decoration-underline text-info">Log in</Link></p>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -115,6 +136,5 @@ const Register = () => {
         </>
     );
 }
-
 
 export default Register;

@@ -1,20 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navarloggeduser, Footer } from '../components';
 import { Navigate } from 'react-router-dom';
-import { Link, useNavigate } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
     const navigate = useNavigate();
-
     const [authToken] = useState(localStorage.getItem('authToken'));
+    const [userProfile, setUserProfile] = useState(undefined);
 
     const [updatedUser, setUpdatedUser] = useState({
-        name: '',      // Initialize with user's existing name
-        mail: '',      // Initialize with user's existing mail
-        password: '',  // Initialize with user's existing password
+        name: '',
+        mail: '',
+        password: '',
     });
+
+    useEffect(() => {
+        // Fetch user data when the component mounts
+        fetch('http://localhost:9998/BackendCRM/User/getbyid', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`,
+            },
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                // Handle errors, e.g., show an error message
+                console.error('Error fetching user data:', response.statusText);
+            }
+        })
+        .then((data) => {
+            // Set the fetched user data as placeholders
+            setUpdatedUser({
+                name: data.name,
+                mail: data.mail,
+                password: data.password, // You may choose to keep the password empty or not fetch it at all
+            });
+        })
+        .catch((error) => {
+            // Handle network errors or other exceptions
+            console.error('An error occurred:', error.message);
+        });
+    }, [authToken]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -51,9 +80,9 @@ const EditProfile = () => {
     return (
         <>
             <Navarloggeduser />
-            <div className="edit-profile">
+            <div className="edit-profile mx-auto" style={{maxWidth:"1200px", paddingTop:"40px"}}>
                 <h2>Edit Profile</h2>
-                <form>
+                <div style={{display:"flex", flexDirection:"column" , maxWidth:"300px" , gap:"10px" , paddingTop:"20px"}}>
                     {/* Input fields for user profile data */}
                     <input
                         type="text"
@@ -80,7 +109,7 @@ const EditProfile = () => {
                     <button type="button" className="btn btn-outline-dark m-2" onClick={handleUpdateProfile}>
                         Update Profile 
                     </button>
-                </form>
+                </div>
             </div>
             <Footer />
         </>

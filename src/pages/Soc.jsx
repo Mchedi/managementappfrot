@@ -46,7 +46,7 @@ const Soc = () => {
       if (response.ok) {
         setRegistrationStatus('success');
         // Redirect to the desired route, e.g., "/createsociete"
-        navigate("/Sub");       } else {
+        navigate("/AllSub");       } else {
         setRegistrationStatus('error');
       }
     } catch (error) {

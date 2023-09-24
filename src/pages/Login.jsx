@@ -49,6 +49,36 @@ const Login = () => {
     }
   };
 
+  const fetchSocietyExistence = async (accessToken) => {
+    try {
+      const societyResponse = await fetch('http://localhost:9998/BackendCRM/Societe/verifsub', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (societyResponse.ok) {
+        const hasSociety = await societyResponse.json();
+
+        if (hasSociety) {
+          // Society exists, navigate to "/Mysoc"
+          navigate("/Mysoc");
+        } else {
+          // Society doesn't exist, navigate to "/createsociete"
+          navigate("/createsociete");
+        }
+      } else {
+        console.error('Failed to fetch society existence');
+        // Navigate to "/createsociete" on failure
+        navigate("/createsociete");
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching society existence:', error);
+      // Navigate to "/createsociete" on error
+      navigate("/createsociete");
+    }
+  };
 
   const fetchUserRole = async (accessToken, userEmail) => {
     try {
@@ -58,37 +88,16 @@ const Login = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         const role = data.role;
-  
+
         localStorage.setItem('userRole', role);
         localStorage.setItem('authToken', accessToken);
-  
+
         if (role === 'directure') {
-          const societyResponse = await fetch('http://localhost:9998/BackendCRM/Societe/verifsoc', {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-  
-          if (societyResponse.ok) {
-            const hasSociety = await societyResponse.json();
-  
-            if (hasSociety) {
-              // Navigate to My Soc
-              navigate("/Mysoc");
-            } else {
-              // Navigate to create societe
-              navigate("/createsociete");
-            }
-          } else {
-            console.error('Failed to fetch society existence');
-            // Navigate to create societe on failure
-            navigate("/createsociete");
-          }
+          fetchSocietyExistence(accessToken); // Check society existence
         } else if (role === 'admin') {
           // Navigate to Home3 for admin role
           navigate("/Home3");
@@ -103,7 +112,6 @@ const Login = () => {
       console.error('An error occurred while fetching user role:', error);
     }
   };
-  
 
   return (
     <>

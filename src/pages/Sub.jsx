@@ -1,91 +1,113 @@
-import React, { useState ,useEffect} from "react";
-import { Footer, Navbar2 } from "../components";
-import { Link, useNavigate } from "react-router-dom";
+  import React, { useState ,useEffect} from "react";
+  import { Footer, Navbar3 } from "../components";
+  import { Link, useNavigate } from "react-router-dom";
 
 
-const Sub = () => {
-  const [authToken, setAuthToken] = useState(null); // State to store the authentication token
-  const navigate = useNavigate();
+  const Sub = () => {
+    const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    durationinmonths: 0, // Set an initial value for DurationInMonths
-  });
+    const [authToken] = useState(localStorage.getItem('authToken'));
+    const [suboptionData, setSuboptionData] = useState({
+        Name: '',
+        MaximumNumberOfVendors: '',
+        MaximumNumberOfProducts: '',
+        comtable: false,
+        Price: '',
+    });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  useEffect(() => {
-    // Retrieve the authentication token from local storage
-    const storedAuthToken = localStorage.getItem('accessToken');
-    setAuthToken(storedAuthToken);
-  }, []);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setSuboptionData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setSuboptionData((prevData) => ({
+            ...prevData,
+            [name]: checked,
+        }));
+    };
 
-    try {
-      // Obtain the user token from your authentication system
+    const handleAddSuboption = async () => {
+        try {
+            const response = await fetch('http://localhost:9998/BackendCRM/subOption/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`,
+                },
+                body: JSON.stringify(suboptionData),
+            });
 
-      const response = await fetch("http://localhost:9998/BackendCRM/sub/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`, // Include the token in the Authorization header
-        },
-        body: JSON.stringify(formData), // Include the form data in the request body
-      });
+            if (response.ok) {
+              //  navigate('/SuboptionList'); // Redirect to the suboption list page after adding
+                console.log('Suboption added successfully.');
+            } else {
+                // Handle errors, e.g., show an error message
+                console.error('Error adding suboption:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network errors or other exceptions
+            console.error('An error occurred:', error.message);
+        }
+    };
 
-      if (response.ok) {
-        // Handle a successful response
-        console.log("Subscription added successfully!");
-        // Navigate to /home2
-        navigate("/Mysoc");       } else {
-        // Handle an error response
-        console.error("Error adding subscription");
-      }
-    } catch (error) {
-      // Handle network errors
-      console.error("Network error:", error);
-    }
-  };
+    return (
+        <>
+            <Navbar3 />
+            <div className="add-suboption mx-auto" style={{ maxWidth: "1200px", paddingTop: "40px" }}>
+                <h2>Add Sub Option</h2>
+                <div style={{ display: "flex", flexDirection: "column", maxWidth: "300px", gap: "10px", paddingTop: "20px" }}>
+                    {/* Input fields for suboption data */}
+                    <input
+                        type="text"
+                        name="Name"
+                        placeholder="Name"
+                        value={suboptionData.Name}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="number"
+                        name="MaximumNumberOfVendors"
+                        placeholder="Maximum Number of Vendors"
+                        value={suboptionData.MaximumNumberOfVendors}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="number"
+                        name="MaximumNumberOfProducts"
+                        placeholder="Maximum Number of Products"
+                        value={suboptionData.MaximumNumberOfProducts}
+                        onChange={handleInputChange}
+                    />
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="comtable"
+                            checked={suboptionData.comtable}
+                            onChange={handleCheckboxChange}
+                        />
+                        Comtable
+                    </label>
+                    <input
+            type="number"
+            name="Price" // Add Price field
+            placeholder="Price"
+            value={suboptionData.Price}
+            onChange={handleInputChange}
+          />
 
-  return (
-    <>
-     <Navbar2 />
-              <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card p-4 mt-5">
-              <h2 className="text-center mb-4">Create Subscription</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="durationinmonths" className="form-label">
-                    Duration in Months:
-                  </label>
-                  <input
-                    type="number"
-                    id="durationinmonths"
-                    name="durationinmonths"
-                    className="form-control"
-                    value={formData.durationinmonths}
-                    onChange={handleChange}
-                  />
+                    <button type="button" className="btn btn-outline-dark m-2" onClick={handleAddSuboption}>
+                        Add Suboption
+                    </button>
                 </div>
-                <div className="text-center">
-                  <button className="btn btn-dark" type="submit">
-                    Purchase Subscription
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
-        </div>
-      </div>
-      <Footer />
+            <Footer />
+        </>
+    );
+  }
 
-    </>
-  );
-};
-
-export default Sub;
+  export default Sub;

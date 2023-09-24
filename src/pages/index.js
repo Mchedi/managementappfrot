@@ -29,8 +29,10 @@ export { default as Addproduct } from'./Addproduct';
 export { default as HomeLoggedUser } from'./HomeLoggedUser';
 export { default as EditProfile } from'./EditProfile';
 
-export { default as Myproducts } from './Myproducts';
+export { default as MyWorkers } from './MyWorkers';
 
 
 export { default as PageNotFound } from './PageNotFound';
+export { default as AllSub } from './AllSub';
+
 
