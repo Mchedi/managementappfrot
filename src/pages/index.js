@@ -24,7 +24,7 @@ export { default as About2 } from './About2';
 
 export { default as Contact2 } from'./Contact2';
 export { default as Addproduct } from'./Addproduct';
-
+export { default as ProductList } from'./ProductList';
 
 
 

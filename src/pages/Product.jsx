@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
+import { useNavigate } from "react-router-dom";
 
 import { Footer, Navbar } from "../components";
 
@@ -13,27 +14,22 @@ const Product = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const addProduct = (product) => {
     dispatch(addCart(product));
+    navigate("/cart");
   };
+
 
   useEffect(() => {
     const getProduct = async () => {
       setLoading(true);
       setLoading2(true);
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      const response = await fetch(`http://localhost:9998/BackendCRM/Product/getall/${id}`);
       const data = await response.json();
       setProduct(data);
       setLoading(false);
-      const response2 = await fetch(
-        `https://fakestoreapi.com/products/category/${data.category}`
-      );
-      const data2 = await response2.json();
-      setSimilarProducts(data2);
-      setLoading2(false);
     };
     getProduct();
   }, [id]);
@@ -70,14 +66,14 @@ const Product = () => {
               <img
                 className="img-fluid"
                 src={product.image}
-                alt={product.title}
+                alt={product.name}
                 width="400px"
                 height="400px"
               />
             </div>
             <div className="col-md-6 col-md-6 py-5">
               <h4 className="text-uppercase text-muted">{product.category}</h4>
-              <h1 className="display-5">{product.title}</h1>
+              <h1 className="display-5">{product.name}</h1>
               <p className="lead">
                 {product.rating && product.rating.rate}{" "}
                 <i className="fa fa-star"></i>
